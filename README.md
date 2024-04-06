@@ -24,3 +24,4 @@ All shaders for cards are in resources/shaders
 
 ## Current Bugs
 - The description of cards doesn't display properly
+    - Should be fixed whenever a new version of Steamodded comes out

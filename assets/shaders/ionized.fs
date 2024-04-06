@@ -135,6 +135,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
 	return dissolve_mask(tex*colour, texture_coords, uv);
 }
 
+// for transforming the card while your mouse is on it
 extern MY_HIGHP_OR_MEDIUMP vec2 mouse_screen_pos;
 extern MY_HIGHP_OR_MEDIUMP float hovering;
 extern MY_HIGHP_OR_MEDIUMP float screen_scale;
