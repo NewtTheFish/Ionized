@@ -263,11 +263,6 @@ function SMODS.INIT.Ionized()
         }
     }
 
-    G.localization.misc.v_dictionary.ml_ionized_desc = {
-        "Foil",
-        "{C:ch}+200 Chips",
-    }
-
     G.localization.misc.labels.ionized = 'Ionized'
 
     -- surprisingly simple
