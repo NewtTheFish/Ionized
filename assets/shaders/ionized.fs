@@ -4,7 +4,11 @@
 	#define MY_HIGHP_OR_MEDIUMP mediump
 #endif
 
+// change this variable name to your Edition's name
+// YOU MUST USE THIS VARIABLE IN THE vec4 effect AT LEAST ONCE
+// ^^ CRITICALLY IMPORTANT (IDK WHY)
 extern MY_HIGHP_OR_MEDIUMP vec2 ionized;
+
 extern MY_HIGHP_OR_MEDIUMP number dissolve;
 extern MY_HIGHP_OR_MEDIUMP number time;
 extern MY_HIGHP_OR_MEDIUMP vec4 texture_details;
@@ -12,6 +16,8 @@ extern MY_HIGHP_OR_MEDIUMP vec2 image_details;
 extern bool shadow;
 extern MY_HIGHP_OR_MEDIUMP vec4 burn_colour_1;
 extern MY_HIGHP_OR_MEDIUMP vec4 burn_colour_2;
+
+// the following four vec4 are (as far as I can tell) required and shouldn't be changed
 
 vec4 dissolve_mask(vec4 tex, vec2 texture_coords, vec2 uv)
 {
@@ -94,12 +100,14 @@ vec4 HSL(vec4 c)
 	return hsl;
 }
 
+// this is what actually changes the look of card
 vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
 {
+    // turns the texture into pixels
     vec4 tex = Texel(texture, texture_coords);
 	vec2 uv = (((texture_coords)*(image_details)) - texture_details.xy*texture_details.ba)/texture_details.ba;
 
-	
+    // generic shimmer copied straight from negative_shine.fs
     number low = min(tex.r, min(tex.g, tex.b));
     number high = max(tex.r, max(tex.g, tex.b));
 	number delta = high-low -0.1;
@@ -112,12 +120,18 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
 
     number maxfac = 0.7*max(max(fac, max(fac2, max(fac3,0.0))) + (fac+fac2+fac3*fac4), 0.);
 
+    // normally this would have both a tex.b and tex.r for this segement but
+    // it made the card look rainbow
     tex.g = tex.g-delta + delta*maxfac*(0.7 - fac5*0.27) - 0.1;
 
+    // make the red channel really bright and **SLIGHTLY** dependant on the height of the card
 	tex.r = tex.r*1.1 + (0.1*ionized.y);
+    // reduce the green channel and **SLIGHTLY** dependant on the rotation of the card
     tex.g = tex.g*0.65 + (0.000001*ionized.r);
+    // greatly reduce the blue channel
 	tex.b = tex.b*0.2;
 
+    // required
 	return dissolve_mask(tex*colour, texture_coords, uv);
 }
 
