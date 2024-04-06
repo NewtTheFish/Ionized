@@ -43,14 +43,26 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
 		end
 	end
 
+
+    -- a little annoying that so much code needs to be copied but
+    -- i genuinely cannot think of a better way to do this
     if first_pass and not (_c.set == 'Edition') and badges then
         for k, v in ipairs(badges) do
             if v == 'ionized' then info_queue[#info_queue+1] = {key = 'e_ionized', set = 'Other'} end
+
+            if v == 'foil' then info_queue[#info_queue+1] = G.P_CENTERS['e_foil'] end
+            if v == 'holographic' then info_queue[#info_queue+1] = G.P_CENTERS['e_holo'] end
+            if v == 'polychrome' then info_queue[#info_queue+1] = G.P_CENTERS['e_polychrome'] end
+            if v == 'negative' then info_queue[#info_queue+1] = G.P_CENTERS['e_negative'] end
+            if v == 'negative_consumable' then info_queue[#info_queue+1] = {key = 'e_negative_consumable', set = 'Edition', config = {extra = 1}} end
 
             if v == 'gold_seal' then info_queue[#info_queue+1] = {key = 'gold_seal', set = 'Other'} end
             if v == 'blue_seal' then info_queue[#info_queue+1] = {key = 'blue_seal', set = 'Other'} end
             if v == 'red_seal' then info_queue[#info_queue+1] = {key = 'red_seal', set = 'Other'} end
             if v == 'purple_seal' then info_queue[#info_queue+1] = {key = 'purple_seal', set = 'Other'} end
+
+            if v == 'eternal' then info_queue[#info_queue+1] = {key = 'eternal', set = 'Other'} end
+            if v == 'pinned_left' then info_queue[#info_queue+1] = {key = 'pinned_left', set = 'Other'} end
         end
     end
 
